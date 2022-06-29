@@ -4,7 +4,7 @@ dependencies:
   ## Required IDF version
   httpd_basic_auth:
     path: httpd_basic_auth
-    git: ssh://git@github.com:abobija/esp-httpd-basic-auth.git
+    git: ssh://git@github.com/abobija/esp-httpd-basic-auth.git
   idf:
     version: ">=4.1.0"
   # # Put list of dependencies here

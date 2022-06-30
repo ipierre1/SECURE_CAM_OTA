@@ -55,7 +55,7 @@ void advanced_ota_example_task(void *pvParameter)
 
     esp_err_t ota_finish_err = ESP_OK;
     esp_http_client_config_t config = {
-        .url = "https://github.com/ipierre1/TSN_SECURE_CAM_OTA/archive/refs/tags/latest.zip",
+        .url = "https://github.com/ipierre1/TSN_SECURE_CAM_OTA/releases/download/latest/https_server.bin",
         // .cert_pem = (char *)server_cert_pem_start,
         .timeout_ms = 5000,
         .keep_alive_enable = true,

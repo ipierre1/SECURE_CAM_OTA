@@ -28,5 +28,5 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         prerelease: false
-        title: ${{ github.ref }}
+        title: "ESP32CAM-OTA Latest"
         files: build/https_server.bin

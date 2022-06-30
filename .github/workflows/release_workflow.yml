@@ -22,11 +22,12 @@ jobs:
         target: esp32
         path: '.'
 
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/https_server.bin
-        asset_name: firmware.bin
-        tag: ${{ github.ref }}
-        overwrite: true
+    - name: Example Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: ${{ github.ref }}
+          files: |
+            /app/build/https_server.bin

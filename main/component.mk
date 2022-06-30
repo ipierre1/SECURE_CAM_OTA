@@ -3,6 +3,4 @@
 #
 # (Uses default behaviour of compiling all source files in directory, adding 'include' to include path.)
 
-COMPONENT_EMBED_TXTFILES := certs/cacert.pem
-COMPONENT_EMBED_TXTFILES += certs/prvtkey.pem
-COMPONENT_EMBED_TXTFILES += certs/ca.pem
+COMPONENT_EMBED_TXTFILES += certs/ca_cert.pem

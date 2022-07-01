@@ -7,5 +7,5 @@
     - Temperature
     - Up time
     - Wifi signal
-- HTTPS OTA client waiting for a new firmaware version available on this code repository. Application version is defined in ```/CMakeLists.txt``` as ```set(PROJECT_VER "X.X.X")```.
+- HTTPS OTA client waiting for a new firmaware version available on this code repository. Application version is defined in ```/CMakeLists.txt``` as ```set(PROJECT_VER "X.X.X")```. It will check periodically if a new version is available to download.
 - WiFi client

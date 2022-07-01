@@ -1,4 +1,4 @@
-name: Release
+name: ESP32 OTA Build
 
 on:
   push:
@@ -6,20 +6,27 @@ on:
       - '*'
 
 jobs:
-  build:
-    name: Publish binaries
+  lint:
+    name: Lint code
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
 
     - uses: cpp-linter/cpp-linter-action@v1
       with:
         style: file
         tidy-checks: '-*'
         files-changed-only: true
+        
+  build:
+    name: Build and publish binaries
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
         
     - name: esp-idf build
       uses: espressif/esp-idf-ci-action@v1

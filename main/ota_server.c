@@ -7,12 +7,20 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_ota_ops.h"
+#include "esp_timer.h"
 #include "esp_http_client.h"
 #include "esp_https_ota.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "protocol_examples_common.h"
 #include "esp_wifi.h"
+#define OTA_TIMER_PERIOD 60000000 // once an hour  3600000000
+static EventGroupHandle_t ota_event_group;
+const int OTA_CHECK_BIT = BIT0;
+
+static void ota_manager_timer_callback(void* arg) {
+    xEventGroupSetBits(ota_event_group, OTA_CHECK_BIT);
+}
 
 
 static const char *TAG = "advanced_https_ota_example";
@@ -124,6 +132,15 @@ ota_end:
     vTaskDelete(NULL);
 }
 
+static void ota_task(void *args) {
+ 
+    while (true) {
+        xEventGroupWaitBits(ota_event_group, OTA_CHECK_BIT, true, true, portMAX_DELAY);
+        xTaskCreate(&advanced_ota_example_task, "advanced_ota_example_task", 1024 * 8, NULL, 5, NULL);
+    }
+    vTaskDelete(NULL);
+}
+
 void app_ota_main(void)
 {
     // Initialize NVS.
@@ -139,10 +156,19 @@ void app_ota_main(void)
     ESP_ERROR_CHECK( err );
 
 
-    /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
-     * Read "Establishing Wi-Fi or Ethernet Connection" section in
-     * examples/protocols/README.md for more information about this function.
-    */
+    ota_event_group = xEventGroupCreate();
 
-    xTaskCreate(&advanced_ota_example_task, "advanced_ota_example_task", 1024 * 8, NULL, 5, NULL);
+    const esp_timer_create_args_t periodic_timer_args = {
+            .callback = &ota_manager_timer_callback,
+            .name = "ota-timer"
+    };
+
+    esp_timer_handle_t periodic_timer;
+    esp_err_t ret = esp_timer_create(&periodic_timer_args, &periodic_timer);
+    ret = esp_timer_start_periodic(periodic_timer, OTA_TIMER_PERIOD);
+
+    if (ret == ESP_OK) {
+        xTaskCreate(ota_task, "ota-task", 4096, NULL, 3, NULL);
+    }
+    //xTaskCreate(&advanced_ota_example_task, "advanced_ota_example_task", 1024 * 8, NULL, 5, NULL);
 }

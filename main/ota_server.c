@@ -14,7 +14,7 @@
 #include "nvs_flash.h"
 #include "protocol_examples_common.h"
 #include "esp_wifi.h"
-#define OTA_TIMER_PERIOD 60000000 // once an hour  3600000000
+#define OTA_TIMER_PERIOD 360000000 // once an hour
 static EventGroupHandle_t ota_event_group;
 const int OTA_CHECK_BIT = BIT0;
 

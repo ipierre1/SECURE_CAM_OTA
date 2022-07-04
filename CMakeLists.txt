@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.5)
 set(EXTRA_COMPONENT_DIRS $ENV{IDF_PATH}/examples/common_components/protocol_examples_common)
 
 # SET APP VERSION
-set(PROJECT_VER "3.0.5")
+set(PROJECT_VER "3.0.6")
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(https_server)

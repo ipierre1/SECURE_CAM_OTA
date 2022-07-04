@@ -80,7 +80,7 @@ static camera_config_t camera_config = {
     .grab_mode = CAMERA_GRAB_WHEN_EMPTY//CAMERA_GRAB_LATEST. Sets when buffers should be filled
 };
 
-
+SemaphoreHandle_t baton;
 
 static const char *TAG = "TSN_CAM";
 
@@ -107,6 +107,7 @@ esp_err_t jpg_stream_httpd_handler(httpd_req_t *req){
     }
 
     while(true){
+        xSemaphoreTake( baton, portMAX_DELAY );
         fb = esp_camera_fb_get();
         if (!fb) {
             ESP_LOGE(TAG, "Camera capture failed");
@@ -124,7 +125,7 @@ esp_err_t jpg_stream_httpd_handler(httpd_req_t *req){
             _jpg_buf_len = fb->len;
             _jpg_buf = fb->buf;
         }
-
+        xSemaphoreGive( baton );
         if(res == ESP_OK){
             res = httpd_resp_send_chunk(req, _STREAM_BOUNDARY, strlen(_STREAM_BOUNDARY));
         }
@@ -268,7 +269,7 @@ static void connect_handler(void* arg, esp_event_base_t event_base,
 void app_main(void)
 {
     static httpd_handle_t server = NULL;
-
+    baton = xSemaphoreCreateMutex();
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());

@@ -44,4 +44,4 @@ jobs:
         title: "ESP32CAM-OTA Latest"
         files: |
           build/https_server.bin
-          ota.json
+          firmware.bin

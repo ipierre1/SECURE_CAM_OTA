@@ -42,4 +42,6 @@ jobs:
         automatic_release_tag: "latest"
         prerelease: false
         title: "ESP32CAM-OTA Latest"
-        files: build/https_server.bin
+        files: |
+          build/https_server.bin
+          ota.json

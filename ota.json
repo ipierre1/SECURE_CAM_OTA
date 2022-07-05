@@ -1,0 +1,5 @@
+{
+    "type": "esp32-fota-http",
+    "version": "2.5.1",
+    "url": "https://github.com/ipierre1/SECURE_CAM_OTA/releases/download/latest/https_firmware.bin"
+}

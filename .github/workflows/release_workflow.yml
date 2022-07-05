@@ -6,18 +6,18 @@ on:
       - '*'
 
 jobs:
-  # lint:
-  #   name: Lint code
-  #   runs-on: ubuntu-latest
+  lint:
+    name: Lint code
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - uses: cpp-linter/cpp-linter-action@v1
-  #     with:
-  #       style: file
-  #       tidy-checks: '-*'
-  #       files-changed-only: true
+    - uses: cpp-linter/cpp-linter-action@v1
+      with:
+        style: file
+        tidy-checks: '-*'
+        files-changed-only: true
         
   build:
     name: Build and publish binaries
@@ -28,12 +28,12 @@ jobs:
       with:
         submodules: 'recursive'
         
-    # - name: esp-idf build
-    #   uses: espressif/esp-idf-ci-action@v1
-    #   with:
-    #     esp_idf_version: v4.4
-    #     target: esp32
-    #     path: '.'
+    - name: esp-idf build
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v4.4
+        target: esp32
+        path: '.'
 
     - name: Example Release
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -43,5 +43,4 @@ jobs:
         prerelease: false
         title: "ESP32CAM-OTA Latest"
         files: |
-          firmware.bin
-        # build/https_server.bin
+          build/https_server.bin
